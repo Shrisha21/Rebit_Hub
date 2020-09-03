@@ -39,7 +39,7 @@ export default class NavigationBar extends Component {
                 }}>
                     <Navbar style={{ alignItems: 'center' }}>
                         <Navbar.Brand style={{ color: this.state.color, backgroundColor: this.state.bgcolor, marginRight: '-440px' }}>
-                            <Link to='/Home'> <img src={Logo} style={{ width: '20%' }} id='logo' alt='logo' /> </Link>
+                            <Link to='/'> <img src={Logo} style={{ width: '20%' }} id='logo' alt='logo' /> </Link>
                         </Navbar.Brand>
                         <Nav className='mr-auto'>
                             <Link to='/Backup' style={{
@@ -54,6 +54,7 @@ export default class NavigationBar extends Component {
                                 marginRight: '20px', textDecoration: 'none',
                                 color: this.state.color
                             }}>Recycle Bin</Link>
+
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text>
@@ -70,7 +71,7 @@ export default class NavigationBar extends Component {
                     </Navbar>
 
                     <Switch>
-                        <Route exact path='/Home' component={Dashboard} />
+                        <Route exact path='/' component={Dashboard} />
                         <Route path='/Backup' component={Backup} />
                         <Route path='/Restore' component={Restore} />
                         <Route path='/Recycle' component={Recycle} />
