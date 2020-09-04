@@ -32,11 +32,11 @@ export default class NavigationBar extends Component {
             console.log(this.state)
         }
         return (
-            <Router>
                 <div style={{
                     color: this.state.color, backgroundColor: this.state.bgcolor,
-                    fontFamily: 'kaushan script', fontSize: '20px'
+                    fontFamily: 'kaushan script', fontSize: '20px',height:'100%'
                 }}>
+                    <Router>
                     <Navbar style={{ alignItems: 'center' }}>
                         <Navbar.Brand style={{ color: this.state.color, backgroundColor: this.state.bgcolor, marginRight: '-440px' }}>
                             <Link to='/'> <img src={Logo} style={{ width: '20%' }} id='logo' alt='logo' /> </Link>
@@ -76,9 +76,8 @@ export default class NavigationBar extends Component {
                         <Route path='/Restore' component={Restore} />
                         <Route path='/Recycle' component={Recycle} />
                     </Switch>
-                </div>
-
-            </Router>
+                </Router>
+                </div>  
         )
     }
 }
