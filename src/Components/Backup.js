@@ -3,8 +3,9 @@ import { Row, Col } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
+import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Alert from 'react-bootstrap/Alert'
+import Alert from 'react-bootstrap/Alert';
 export default class Backup extends Component {
     constructor(){
         super();
@@ -62,19 +63,17 @@ export default class Backup extends Component {
             }
         };
         return (
-            <div style={{ marginTop: '90px' }}>
+            <div style={{ marginTop: '90px'}}>
                 <Row className='row'>
 
                     <Col sm={6}>
                         <div style={{
-                            fontSize: '60px', color: 'yellowgreen',
-                            fontWeight: 'bolder',marginLeft:'10px'
+                            fontSize: '58px', color: 'yellowgreen',
+                            fontWeight: 'bolder',marginLeft:'20px'
                         }}>
-                            Wanna secure the data with best data backup?
+                            Why panic about the data loss? Use Rebit!
                         </div>
-                        <div style={{ color: 'yellowgreen' }} align='center'>
-                            Upload the files using Dropzone!
-                        </div>
+                        
                     </Col>
                     <Col sm={6} align='center' >
                         <Dropzone ref={dropzoneRef} onDrop={fileDrop} noClick noKeyboard>
@@ -84,6 +83,7 @@ export default class Backup extends Component {
                                         <div {...getRootProps({ className: 'dropzone' })}>
                                             <input {...getInputProps()} />
                                             <p style={{marginTop:'60px',marginBottom:'1rem'}}>Drag 'n' drop some files here</p>
+                                            
                                             <Button style={{marginBottom:'4rem',
                                             backgroundColor:'yellowgreen', border: 'aliceblue', width: '19%'}}
                                                 type="button"
@@ -91,31 +91,35 @@ export default class Backup extends Component {
                                             >
                                                 Choose Files
                                             </Button>
+                                            
                                         </div>
                                     </div>
                                 );
                             }}
                         </Dropzone>
+                        <div style={{ color: '#f9b905' }} align='center'>
+                            Use the above dropzone for data backup
+                        </div>
                     </Col>
                 </Row>
                 {
                     this.state.showAlert && <div align='center'><Alert style={{backgroundColor:'yellowgreen',
                 marginTop:'50px',width:'50%',color:'white'}} 
                     onClose={()=>this.setState({showAlert:false})} dismissible>
-                        You have successfully Uploaded the files with size {(this.state.totalSize/1000000).toFixed(1)} Mb!
+                        Successfull uploaded the file of size {(this.state.totalSize/1000000).toFixed(1)} Mb!
                     </Alert>
                     </div>
                 }
                 {files.length > 0 && <div align='center'>
                     <div className='Fileschoosen'>
-                        File(s) choosen for backup
+                        File choosen for backup
                     </div>
-                <table style={{marginBottom:'20px'}}>
+                <table style={{marginBottom:'20px',bottom:'auto'}}>
                     <thead>
                         <tr>
-                            <th style={{color:'yellowgreen'}}>Name</th>
-                            <th style={{color:'yellowgreen'}}>Size</th>
-                            <th style={{color:'yellowgreen'}}>Delete</th>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Delete</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -123,7 +127,8 @@ export default class Backup extends Component {
                                 this.state.backupFiles.map((data)=>{
                                 return(
                                 <tr>    
-                                <td align='center'>{data.name}</td>
+                                <Tooltip title={data.name} placement="left">
+                                <td align='center'>{(data.name).substring(0,20)}..</td></Tooltip>
                                 <td align='center'>{(data.size/1000000).toFixed(1)} Mb</td>
                                 <td align='center'><DeleteIcon align='center' style={{color:'red',cursor:'pointer',}} 
                                 onClick={(event)=>deleteFile(data,event)}/></td>
@@ -135,10 +140,10 @@ export default class Backup extends Component {
                 <Button style={{marginBottom:'4rem',backgroundColor:'yellowgreen', 
                 border: 'aliceblue',}} onClick={backupFiles}>
                     Backup Now!
+                    
                 </Button>
                 </div>
                 }
-                
             </div>
         )
     }

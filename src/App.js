@@ -1,31 +1,52 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
-//import LoginNavbar from './Components/LoginNavbar';
+import LoginNavbar from './Components/LoginNavbar';
 import NavigationBar from './Components/NavigationBar'
 
+
 export default class App extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     login: false
-  //   }
-  // }
+  constructor() {
+    super();
+    this.state = {
+      bgcolor: "white",
+      color: "gray",
+    }
+  }
   render() {
-    // const validate = (data) => {
-    //   console.log(data)
-    //   this.setState({
-    //     login: data.status
-    //   })
-    // }
-    return (
-      <div className='App'>
-        {/* {!this.state.login &&
-          <LoginNavbar onChange={validate} />
-        } */}
+    const validate = (data) => {
+      console.log(data)
+      this.setState({
+        login: data.status
+      })
+    }
+    const lightMode = () => {
+      this.setState({
+          bgcolor: "white",
+          color: "gray",
+      })
+      if (this.props.onChange) {
+          this.props.onChange(this.state);
+      }
+     
+  }
+  const darkMode = () => {
+      this.setState({
+          bgcolor: "black",
+          color: "white",
+      })
+      if (this.props.onChange) {
+          this.props.onChange(this.state);
+      }
       
-          <NavigationBar />
-        
+  }
+    return (
+      <div className='App' style={{
+        color: this.state.color, backgroundColor: this.state.bgcolor,
+        fontFamily: 'kaushan script', fontSize: '20px',height:'100%'}}>
+        <LoginNavbar onChange={validate} />
+          {/* <NavigationBar lightMode={lightMode} darkMode={darkMode}/> */}
+          
       </div>
     )
   }

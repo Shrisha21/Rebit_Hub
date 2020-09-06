@@ -1,9 +1,10 @@
 .App{
-  position: absolute; 
-  top: 0;
-  left: 0;
-  right: 0;
   bottom: 0;
+  position: absolute;
+  overflow : auto;
+  top: 0;
+  right: 0;
+  left: 0;
 }
 .dropzone {
   width : 100%;
@@ -14,17 +15,47 @@
 table, td, th {  
   text-align: center;
 }
-
+th, td {
+  padding: 5px;
+  border: 1px solid #ddd;
+}
+th{
+  color:gray;
+  background-color:yellowgreen;
+  
+}
 table {
   border-collapse: collapse;
   width: 50%;
 }
 
-th, td {
-  padding: 15px;
-}
 .Fileschoosen{
-  margin-top: 40px;
+  margin-top: 30px;
   font-weight: bolder;
   font-size:22px ;
+}
+
+.footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  color:gray;
+  text-align: center;
+}
+#logo {
+  
+  animation: App-logo-spin infinite 0.5s alternate;
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotateY(25deg);
+  }
+  to {
+    transform: rotateY(-25deg);
+  }
+}
+#logo:hover{
+  animation-play-state:paused;
+  cursor: pointer;
 }

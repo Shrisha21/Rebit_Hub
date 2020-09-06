@@ -12,26 +12,21 @@ export default class LoginNavbar extends Component {
         this.state = {
             email: '',
             password: '',
-            testmail: 'shrisha.adiga@betsol.com',
-            testpass: '12345678',
-            status: false,
-        }
+            repeatPass:'',
+            signUp:true,
+            loginMail:'',
+            loginPass:''
+           }
     }
 
     render() {
-        const validate = (e) => {
+        const validateLogin = (e) => {
             e.preventDefault();
-            const passcheck = this.state.password.toString();
-            if (this.state.email === this.state.testmail) {
-                if (passcheck === this.state.testpass) {
-                    this.setState({
-                        status: true
-                    })
-                }
-            }
-            if (this.props.onChange) {
-                this.props.onChange(this.state);
-            }
+            console.log(this.state.loginMail,this.state.loginPass)
+        }
+        const validateSignUp = (e) => {
+            e.preventDefault();
+            console.log(this.state.email,this.state.password,this.state.repeatPass)
         }
         const handleEmail = (event) => {
             this.setState({
@@ -45,6 +40,25 @@ export default class LoginNavbar extends Component {
             });
 
         }
+        const handleRepeatPassword = (event) => {
+            this.setState({
+                repeatPass: event.target.value
+            });
+
+        }
+        const handleLoginMail = (event) => {
+            this.setState({
+                loginMail: event.target.value
+            });
+
+        }
+        const handleLoginPassword = (event) => {
+            this.setState({
+                loginPass: event.target.value
+            });
+
+        }
+
 
         return (
             <div style={{
@@ -63,7 +77,64 @@ export default class LoginNavbar extends Component {
                             <img src={Home} style={{ width: '100%' }} id='logo' alt='logo' />
                         </Col>
                         <Col sm={6} style={{ paddingLeft: '180px', marginTop: '60px' }}>
-                            <form onSubmit={validate}>
+                            {this.state.signUp && <form onSubmit={validateSignUp}>
+                                <div style={{
+                                    color: 'yellowgreen', fontSize: '28px',
+                                    marginLeft: '135px'
+                                }}>
+                                    SIGN UP
+                        </div>
+                                <Form.Group >
+                                    <Form.Label>Email address</Form.Label>
+                                    <Form.Control type="email"
+                                        value={this.state.email}
+                                        onChange={handleEmail} placeholder="Enter email" s style={{
+                                            width: '80%'
+                                        }} required />
+                                </Form.Group>
+                                <Form.Group >
+                                    <Form.Label>Password</Form.Label>
+                                    <Form.Control type="password"
+                                        value={this.state.password}
+                                        onChange={handlePassword}
+                                        pattern=".{8,}"
+                                        placeholder="Password with 8 charcters or more" style={{
+                                            width: '80%'
+                                        }} required />
+                                </Form.Group>
+                                
+                                <Form.Group >
+                                    <Form.Label> Repeat Password</Form.Label>
+                                    <Form.Control type="password"
+                                        value={this.state.repeatPass}
+                                        onChange={handleRepeatPassword}
+                                        pattern=".{8,}"
+                                        placeholder="Password with 8 charcters or more" style={{
+                                            width: '80%'
+                                        }} required />
+                                </Form.Group>
+
+                               { this.state.password === this.state.repeatPass &&
+                                <Button variant="primary" type="submit" style={{
+                                    backgroundColor: 'yellowgreen',
+                                    marginLeft: '135px', border: 'aliceblue', width: '19%',marginBotton:'10px'
+                                }}>
+                                    SIGN UP
+                        </Button>}
+                        { this.state.password !== this.state.repeatPass && <div>
+                                <Button variant="primary"  style={{
+                                    backgroundColor: 'yellowgreen',
+                                    marginLeft: '135px', border: 'aliceblue', width: '19%',marginBotton:'10px'
+                                }} disabled>
+                                    SIGN UP
+                        </Button>
+                        <div style={{color:'red',marginLeft:'20px',fontSize:'13px',display:'inline'}}>Password Mismatch</div></div>
+                        }
+                               <div style={{cursor:'pointer'}} onClick={()=>{this.setState({signUp:false})}}
+                               >Already have an account click here to login</div> 
+                            </form>}
+                            {
+                                !this.state.signUp && <form onSubmit={validateLogin}>
                                 <div style={{
                                     color: 'yellowgreen', fontSize: '28px',
                                     marginLeft: '135px'
@@ -73,34 +144,32 @@ export default class LoginNavbar extends Component {
                                 <Form.Group controlId="formBasicEmail">
                                     <Form.Label>Email address</Form.Label>
                                     <Form.Control type="email"
-                                        value={this.state.email}
-                                        onChange={handleEmail} placeholder="Enter email" s style={{
+                                        value={this.state.loginMail}
+                                        onChange={handleLoginMail} placeholder="Enter email" s style={{
                                             width: '80%'
                                         }} required />
                                 </Form.Group>
-                                <Form.Group controlId="formBasicPassword">
+                                <Form.Group >
                                     <Form.Label>Password</Form.Label>
                                     <Form.Control type="password"
-                                        value={this.state.password}
-                                        onChange={handlePassword}
+                                        value={this.state.loginPass}
+                                        onChange={handleLoginPassword}
                                         pattern=".{8,}"
                                         placeholder="Password" style={{
                                             width: '80%'
                                         }} required />
                                 </Form.Group>
+                                
                                 <Button variant="primary" type="submit" style={{
                                     backgroundColor: 'yellowgreen',
-                                    marginLeft: '135px', border: 'aliceblue', width: '19%'
+                                    marginLeft: '135px', border: 'aliceblue', width: '19%',marginBotton:'10px'
                                 }}>
-                                    Login
+                                    LOGIN
                         </Button>
-                                {this.state.status && <div style={{
-                                    color: 'green',
-                                    fontSize: '14px'
-                                }}>
-                                    Login Successfull
-                        </div>}
+                               <div style={{cursor:'pointer',paddingLeft:'39px'}} onClick={()=>{this.setState({signUp:!this.state.signUp})}}
+                               >Create your account for free here</div> 
                             </form>
+                            }
                         </Col>
                     </Row>
                 </div>

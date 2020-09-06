@@ -17,28 +17,12 @@ export default class NavigationBar extends Component {
         }
     }
     render() {
-        const lightMode = () => {
-            this.setState({
-                bgcolor: "white",
-                color: "gray",
-            })
-            console.log(this.state)
-        }
-        const darkMode = () => {
-            this.setState({
-                bgcolor: "black",
-                color: "white",
-            })
-            console.log(this.state)
-        }
+        
         return (
-                <div style={{
-                    color: this.state.color, backgroundColor: this.state.bgcolor,
-                    fontFamily: 'kaushan script', fontSize: '20px',height:'100%'
-                }}>
+                <div >
                     <Router>
-                    <Navbar style={{ alignItems: 'center' }}>
-                        <Navbar.Brand style={{ color: this.state.color, backgroundColor: this.state.bgcolor, marginRight: '-440px' }}>
+                    <Navbar style={{ alignItems: 'center', }}>
+                        <Navbar.Brand style={{ marginRight: '-440px' }}>
                             <Link to='/'> <img src={Logo} style={{ width: '20%' }} id='logo' alt='logo' /> </Link>
                         </Navbar.Brand>
                         <Nav className='mr-auto'>
@@ -60,12 +44,12 @@ export default class NavigationBar extends Component {
                             <Navbar.Text>
                                 <span style={{
                                     cursor: 'pointer', marginRight: '15px',
-                                    color: this.state.color, backgroundColor: this.state.bgcolor
-                                }} onClick={lightMode}>Light</span>
+                                    color: this.state.color
+                                }} onClick={this.props.lightMode}>Light</span>
                                 <span style={{
                                     cursor: 'pointer', fontWeight: 'bold',
-                                    color: this.state.color, backgroundColor: this.state.bgcolor
-                                }} onClick={darkMode}>Dark</span>
+                                    color: this.state.color
+                                }} onClick={this.props.darkMode}>Dark</span>
                             </Navbar.Text>
                         </Navbar.Collapse>
                     </Navbar>
