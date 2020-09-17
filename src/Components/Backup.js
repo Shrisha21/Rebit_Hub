@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react'
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col} from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
@@ -17,6 +17,7 @@ export default class Backup extends Component {
             savedFiles:[],
             totalSize:0,
             showAlert:false,
+            response : ''
         }
     }
     render() {
@@ -43,20 +44,18 @@ export default class Backup extends Component {
                 return(
             sum = sum + data.size
             )});
-                  
+            const formData = new FormData()
+            formData.append('file',this.state.savedFiles[0])
+            formData.append('email',email)
             fetch("http://localhost:8080/api/upload",{
                 "method" : "POST",
-                "headers":{
-                    'content-type': 'multipart/form-data',
-                    'boundary' : 'foo_bar',
-                },
-                "body" : {
-                    file : this.state.savedFiles,
-                    email : email
-                }
+                "body" :  formData
+                
             }).then(res => res.json()).then(
                 res => {
-                    console.log(res)               
+                    this.setState({
+                        response : res
+                    })               
                }
            ).catch(err => {
                console.log(err)
@@ -123,10 +122,10 @@ export default class Backup extends Component {
                     </Col>
                 </Row>
                 {
-                    this.state.showAlert && <div align='center'><Alert style={{backgroundColor:'yellowgreen',
+                   this.state.response && this.state.showAlert && <div align='center'><Alert style={{backgroundColor:'yellowgreen',
                 marginTop:'50px',width:'50%',color:'white'}} 
                     onClose={()=>this.setState({showAlert:false})} dismissible>
-                        Successfull uploaded the file of size {(this.state.totalSize/1000000).toFixed(1)} Mb!
+                        Successfull uploaded the {this.state.response.name} and size is ({(this.state.response.size/1000000).toFixed(1)}) MB
                     </Alert>
                     </div>
                 }

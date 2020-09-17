@@ -33,7 +33,7 @@ export default class NavigationBar extends Component {
         return (
                 <div >
                     <Router>
-                    <Navbar style={{ alignItems: 'center', }}>
+                    <Navbar style={{ alignItems: 'center',}}>
                         <Navbar.Brand style={{ marginRight: '-440px' }}>
                             <Link to='/'> <img src={Logo} style={{ width: '20%' }} id='logo' alt='logo' /> </Link>
                         </Navbar.Brand>

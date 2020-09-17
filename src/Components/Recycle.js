@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { Component} from 'react'
 import { Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-// import Button from 'react-bootstrap/Button';
+import Button from 'react-bootstrap/Button';
 import Tooltip from '@material-ui/core/Tooltip';
-
+import Modal from 'react-bootstrap/Modal'
 import RestoreIcon from '@material-ui/icons/Restore';
 import DeleteIcon from '@material-ui/icons/Delete';
 // import DeleteIcon from '@material-ui/icons/Delete';
@@ -15,7 +15,8 @@ export default class Recycle extends Component {
     constructor(props){
         super(props)
         this.state = {
-            files : ''
+            files : '',
+            openModal : true
         }
     }
     componentDidMount () {
@@ -24,6 +25,7 @@ export default class Recycle extends Component {
     componentDidUpdate () {
         this.getDeletedFiles()
     }
+   
     getDeletedFiles = () => {
         fetch("http://localhost:8080/api/bin",{
             "method" : "POST",
@@ -59,6 +61,27 @@ export default class Recycle extends Component {
         })
         this.getDeletedFiles()
     }
+    
+    deleteFromBin = (filename) => {
+        fetch("http://localhost:8080/api/binDelete",{
+            "method" : "POST",
+            "body" : JSON.stringify({
+                file : filename,
+                email : email
+            })
+        }).then(res=>res.json()).then(
+                res => {
+                    console.log(res)
+                    this.setState({
+                        msg : res
+                    })
+                }
+            ).catch(err => {
+            console.log(err)
+        })
+        this.getDeletedFiles()
+    }
+
     render() {
         const {files} = this.state
         return (
@@ -100,7 +123,8 @@ export default class Recycle extends Component {
                                                         <td align='center'>{file.uploadedOn}</td>
                                                         <td align='center'><RestoreIcon align='center' style={{color:'green',cursor:'pointer',}} 
                                                         onClick={()=>this.restoreFile(file.file_name)} /></td>
-                                                        <td align='center'><DeleteIcon align='center' style={{color:'red',cursor:'pointer',}}/></td>
+                                                        <td align='center'><DeleteIcon align='center' style={{color:'red',cursor:'pointer',}}
+                                                        onClick={()=>this.deleteFromBin(file.file_name)} /></td>
                                                     </tr>
                                                 )
                                             })
@@ -113,6 +137,28 @@ export default class Recycle extends Component {
                             !files && <div align='center' style={{color:'orange',fontWeight:'bolder',marginTop:'20px'}}>
                                 No deleted file(s) found!!
                             </div>
+                        }
+                        {  this.state.openModal &&
+                        <>
+                            <Modal backdrop="static" show={this.state.openModal}
+                            keyboard={false}>
+                            <Modal.Dialog>
+                            <Modal.Header style={{backgroundColor:'yellowgreen',opacity:'0.8'}}>
+                              <Modal.Title>Delete file</Modal.Title>
+                            </Modal.Header>
+                          
+                            <Modal.Body>
+                              <p style={{color:'orange',fontWeight:'bolder'}}>Warning: The deleted files cannot be restored!</p>
+                            </Modal.Body>
+                          
+                            <Modal.Footer>
+                              <Button variant="secondary" onClick={()=>{this.setState({openModal:false})}} style={{border: 'aliceblue',marginRight:'15px'}}
+                               > Cancel</Button>
+                              <Button style={{backgroundColor:'orange',border: 'aliceblue'}}>Delete</Button>
+                            </Modal.Footer>
+                          </Modal.Dialog>
+                          </Modal>
+                          </>
                         }
                     </Col>
 
