@@ -3,7 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { Component } from 'react';
 import LoginNavbar from './Components/LoginNavbar';
 import NavigationBar from './Components/NavigationBar'
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 export default class App extends Component {
   constructor() {
@@ -44,8 +45,14 @@ export default class App extends Component {
       <div className='App' style={{
         color: this.state.color, backgroundColor: this.state.bgcolor,
         fontFamily: 'kaushan script', fontSize: '20px',height:'100%'}}>
-        <LoginNavbar onChange={validate} />
-          {/* <NavigationBar lightMode={lightMode} darkMode={darkMode}/> */}
+         {
+           cookies.get('email') === undefined && 
+            <LoginNavbar onChange={validate} />
+         } 
+        
+        {cookies.get('email') !== undefined && 
+          <NavigationBar lightMode={lightMode} darkMode={darkMode}/>
+        }
           
       </div>
     )

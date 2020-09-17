@@ -21,12 +21,19 @@ th, td {
 }
 th{
   color:gray;
+  opacity: 0.81;
   background-color:yellowgreen;
   
 }
 table {
   border-collapse: collapse;
   width: 50%;
+}
+
+.tb1{
+  border-collapse: collapse;
+  width: 100%;
+  margin-left: -20px;
 }
 
 .Fileschoosen{
@@ -58,4 +65,11 @@ table {
 #logo:hover{
   animation-play-state:paused;
   cursor: pointer;
+}
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
 }

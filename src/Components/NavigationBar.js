@@ -8,6 +8,10 @@ import Backup from './Backup';
 import Restore from './Restore';
 import Recycle from './Recycle';
 import Dashboard from './Dashboard';
+import Cookies from 'universal-cookie';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import Brightness2Icon from '@material-ui/icons/Brightness2';
+const cookies = new Cookies();
 export default class NavigationBar extends Component {
     constructor() {
         super();
@@ -17,7 +21,15 @@ export default class NavigationBar extends Component {
         }
     }
     render() {
-        
+        const logout = () => {
+            cookies.remove('email')
+            cookies.remove('token')
+            if(cookies.get('email')===undefined){
+                setTimeout(function(){
+                    window.location.reload(false)
+                },1000)
+            }
+        }
         return (
                 <div >
                     <Router>
@@ -26,30 +38,40 @@ export default class NavigationBar extends Component {
                             <Link to='/'> <img src={Logo} style={{ width: '20%' }} id='logo' alt='logo' /> </Link>
                         </Navbar.Brand>
                         <Nav className='mr-auto'>
+                        <Link to='/' style={{
+                                marginRight: '20px', textDecoration: 'none',
+                                color: this.state.color
+                            }}>DASHBOARD</Link>
                             <Link to='/Backup' style={{
                                 marginRight: '20px', textDecoration: 'none',
                                 color: this.state.color
-                            }}>Backup</Link>
+                            }}>BACKUP</Link>
                             <Link to='/Restore' style={{
                                 marginRight: '20px', textDecoration: 'none',
                                 color: this.state.color
-                            }}>Recovery</Link>
+                            }}>RECOVERY</Link>
                             <Link to='/Recycle' style={{
                                 marginRight: '20px', textDecoration: 'none',
                                 color: this.state.color
-                            }}>Recycle Bin</Link>
+                            }}>TRASH</Link>
 
                         </Nav>
                         <Navbar.Collapse className="justify-content-end">
                             <Navbar.Text>
+                            <span style={{
+                                    cursor: 'pointer', marginRight: '45px',
+                                    color: this.state.color
+                                }} onClick={logout}>LOGOUT</span>
                                 <span style={{
                                     cursor: 'pointer', marginRight: '15px',
                                     color: this.state.color
-                                }} onClick={this.props.lightMode}>Light</span>
+                                }} onClick={this.props.lightMode}><WbSunnyIcon style={{
+                                    color : 'orange'
+                                }}/></span>
                                 <span style={{
                                     cursor: 'pointer', fontWeight: 'bold',
                                     color: this.state.color
-                                }} onClick={this.props.darkMode}>Dark</span>
+                                }} onClick={this.props.darkMode}><Brightness2Icon /></span>
                             </Navbar.Text>
                         </Navbar.Collapse>
                     </Navbar>

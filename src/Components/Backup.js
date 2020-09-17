@@ -6,6 +6,9 @@ import Button from 'react-bootstrap/Button';
 import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Alert from 'react-bootstrap/Alert';
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
+const email = cookies.get('email')
 export default class Backup extends Component {
     constructor(){
         super();
@@ -18,13 +21,11 @@ export default class Backup extends Component {
     }
     render() {
         const fileDrop = (acceptedFiles) => {
-        if(acceptedFiles.length > 0){
-            for(let i=0;i<acceptedFiles.length;i++){
+        if(acceptedFiles.length === 1){
                 this.setState({
-                    backupFiles:this.state.backupFiles.concat(acceptedFiles[i])
+                    backupFiles:acceptedFiles
                 });
-            }
-        } 
+        }   
         console.log(this.state.backupFiles);
         }
         const deleteFile = (file,event) => {
@@ -42,6 +43,25 @@ export default class Backup extends Component {
                 return(
             sum = sum + data.size
             )});
+                  
+            fetch("http://localhost:8080/api/upload",{
+                "method" : "POST",
+                "headers":{
+                    'content-type': 'multipart/form-data',
+                    'boundary' : 'foo_bar',
+                },
+                "body" : {
+                    file : this.state.savedFiles,
+                    email : email
+                }
+            }).then(res => res.json()).then(
+                res => {
+                    console.log(res)               
+               }
+           ).catch(err => {
+               console.log(err)
+           })
+
             console.log(sum)
             this.setState({
                 totalSize:sum,
@@ -76,7 +96,7 @@ export default class Backup extends Component {
                         
                     </Col>
                     <Col sm={6} align='center' >
-                        <Dropzone ref={dropzoneRef} onDrop={fileDrop} noClick noKeyboard>
+                        <Dropzone enctype="multipart/form-data" ref={dropzoneRef} onDrop={fileDrop} multiple={false} noClick noKeyboard>
                             {({ getRootProps, getInputProps}) => {
                                 return (
                                     <div className="container">
@@ -124,9 +144,9 @@ export default class Backup extends Component {
                     </thead>
                     <tbody>
                             {
-                                this.state.backupFiles.map((data)=>{
+                                this.state.backupFiles.map((data,index)=>{
                                 return(
-                                <tr>    
+                                <tr key={index}>    
                                 <Tooltip title={data.name} placement="left">
                                 <td align='center'>{(data.name).substring(0,20)}..</td></Tooltip>
                                 <td align='center'>{(data.size/1000000).toFixed(1)} Mb</td>
