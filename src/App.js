@@ -15,12 +15,7 @@ export default class App extends Component {
     }
   }
   render() {
-    const validate = (data) => {
-      console.log(data)
-      this.setState({
-        login: data.status
-      })
-    }
+    
     const lightMode = () => {
       this.setState({
           bgcolor: "white",
@@ -47,7 +42,7 @@ export default class App extends Component {
         fontFamily: 'kaushan script', fontSize: '20px',height:'100%'}}>
          {
            cookies.get('email') === undefined && 
-            <LoginNavbar onChange={validate} />
+            <LoginNavbar  />
          } 
         
         {cookies.get('email') !== undefined && 

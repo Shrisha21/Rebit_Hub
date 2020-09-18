@@ -154,7 +154,7 @@ export default class LoginNavbar extends Component {
                                     backgroundColor: 'yellowgreen',
                                     width: '75%', color: 'white', fontSize: '17px'
                                 }}
-                                    onClose={() => this.setState({ showAlert: false })} dismissible>
+                                    onClose={() => this.setState({ showAlert: false,signUp:true  })} dismissible>
                                     Sign Up Success. Login to continue
                     </Alert>}
                             {this.state.responseSignUp === "Email Found" &&
@@ -237,7 +237,8 @@ export default class LoginNavbar extends Component {
                                 }
                                 <div style={{ cursor: 'pointer' }} onClick={() => { this.setState({ signUp: true }) }}
                                 >Already have an account click here to login</div>
-                            </form>}
+                            </form>
+                            }
                             {
                                 this.state.signUp && <form onSubmit={validateLogin}>
 
